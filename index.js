@@ -17,7 +17,7 @@ app.get('/', (_req, res) => {
     res.send('la API está corriendo exitósamente');
 });
 
-app.get('/:entidad', async (_req, res) => {
+app.get('/:entidad', async (req, res) => {
     const { entidad = null } = req.params;
     if(!entidad){
         res.status(404).json({mensaje:'no encontrado'});
