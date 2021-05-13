@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "b08276fc-abdb-4eec-8d5a-be5d84d3ccaf",
+		"name": "usuario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "listar usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"pinina2\",\r\n    \"lastName\": \"cayetano2\",\r\n    \"email\": \"cayetano@gmail.com \",\r\n    \"password\": \"pini1234\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editar profile",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"berutti\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/profile/:_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"profile",
+						":_id"
+					],
+					"variable": [
+						{
+							"key": "_id",
+							"value": "b976e509-7342-4ddb-886a-85cb1a014f47"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/profile/:_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"profile",
+						":_id"
+					],
+					"variable": [
+						{
+							"key": "_id",
+							"value": "b976e509-7342-4ddb-886a-85cb1a014f47"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar un solo usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/profile/:_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"profile",
+						":_id"
+					],
+					"variable": [
+						{
+							"key": "_id",
+							"value": "c1399828-3ac9-4f63-ad10-72b567f8e1aa"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
