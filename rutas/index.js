@@ -1,5 +1,7 @@
-const rutas = require('./ruta');
+const register = require('./register');
+const profile = require('./profile');
 
 module.exports = (app) =>{ 
-    app.use(rutas);   
+    app.use('/register', register);   
+    app.use('/profile', profile);
 };
