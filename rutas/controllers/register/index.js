@@ -1,26 +1,21 @@
 const router = require('express').Router();
 
 const { v4: uuidv4 } = require('uuid');
-const { crear, 
-    listar, 
+const { crear,  
     actualizar, 
     eliminar,
     obtenerUno,
-} = require('../../data-handler');
+} = require('../../../data-handler');
 
-const entity = 'register'
+const { listar } = require('../genericos');
+
+const entity = "register";
 
 router.get("/", (_req, res) => {
     res.send('la API está corriendo exitósamente');
 });
 
-router.get("/", async (_req, res) => {
-    if(!entity){
-        res.status(404).json({mensaje:'no encontrado'});
-    }
-    const usersProfile = await listar({directorioEntidad: entity});
-    res.status(200).json(usersProfile);
-});
+router.get( '/', async (_req, res) => listar(entity, _req, res));
 
 router.get("/:_id", async (req, res) => {
     const { _id = null } = req.params;
