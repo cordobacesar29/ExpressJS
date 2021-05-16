@@ -1,16 +1,11 @@
 const router = require('express').Router();
-
-const {
-    eliminar,
-} = require('../../../data-handler');
-
 const { 
     getEntity,
     getOneEntity,
     postEntity,
     putEntity,
+    deleteEntity
 } = require('../genericos');
-
 const entity = 'profile';
 
 const getHandler = getEntity(entity);
@@ -25,19 +20,8 @@ router.post('/', postHandler);
 const putHandler = putEntity(entity);
 router.put("/:_id", putHandler);
 
-router.delete('/:_id', async ( req, res ) => {
-    const { _id = null } = req.params;
-    if(!_id) {
-        return res.status(400).json({mensaje: 'falta el id'});
-    }
-    if(!entity){
-        res.status(404).json({mensaje:'no encontrado'});
-    }
+const deleteHandler = deleteEntity(entity);
+router.delete("/:_id", deleteHandler);
 
-    await eliminar({
-        directorioEntidad:entity,
-        nombreArchivo: _id,
-    });
-    return res.status(204).send();
-});
+
 module.exports = router;

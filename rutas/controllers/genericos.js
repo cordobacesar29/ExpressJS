@@ -1,5 +1,11 @@
 const { v4: uuidv4 } = require('uuid');
-const { listar, obtenerUno, crear, actualizar } = require('../../data-handler');
+const { 
+    listar,
+    obtenerUno, 
+    crear, 
+    actualizar,
+    eliminar
+} = require('../../data-handler');
 
 const getEntity = function closureGet(entity) {
     return async function closureHandlerGet(_req, res)  {
@@ -76,11 +82,30 @@ const putEntity = function closurePutEntity(entity) {
         }
         return res.status(400).json({mensaje: "falta el body"});   
     }
-  };
+};
+
+const deleteEntity = function closureDeleteEntity(entity) {
+    return async function closureHandlerDelete( req, res ) {
+        const { _id = null } = req.params;
+        if(!_id) {
+            return res.status(400).json({mensaje: 'falta el id'});
+        }
+        if(!entity){
+            res.status(404).json({mensaje:'no encontrado'});
+        }
+    
+        await eliminar({
+            directorioEntidad:entity,
+            nombreArchivo: _id,
+        });
+        return res.status(204).send();
+    }
+};
 
 module.exports = {
    getEntity,
    getOneEntity,
    postEntity,
    putEntity,
+   deleteEntity
 };
