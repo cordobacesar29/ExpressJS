@@ -4,34 +4,17 @@ const { v4: uuidv4 } = require('uuid');
 const { crear,  
     actualizar, 
     eliminar,
-    obtenerUno,
 } = require('../../../data-handler');
 
-const { getEntity } = require('../genericos');
+const { getEntity, getSingleEntity } = require('../genericos');
 
-const listarHandler = getEntity('register');
+const entity = 'register';
 
+const listarHandler = getEntity(entity);
 router.get( '/', listarHandler);
 
-router.get("/:_id", async (req, res) => {
-    const { _id = null } = req.params;
-
-    if (!_id) {
-      return res.status(400).json({ mensaje: "Falta el id" });
-    }
-    if(!entity){
-        res.status(404).json({mensaje:'no encontrado'});
-    }
-
-    const singleProfile = await obtenerUno({
-      directorioEntidad: entity,
-      nombreArchivo: _id,
-    });
-    if (singleProfile) {
-      res.status(200).json(singleProfile);
-    }
-    res.status(404).json({ mensaje: "no encontrado" });
-  });  
+const obtenerUnoHandler = getSingleEntity(entity);
+router.get('/:_id', obtenerUnoHandler); 
 
 router.post("/", async (req, res) =>{
 
