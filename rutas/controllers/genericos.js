@@ -1,7 +1,8 @@
-const { listar, obtenerUno } = require('../../data-handler');
+const { v4: uuidv4 } = require('uuid');
+const { listar, obtenerUno,crear } = require('../../data-handler');
 
-const getEntity = function closureListar(entity) {
-    return async function closureHandlerListar(_req, res)  {
+const getEntity = function closureGet(entity) {
+    return async function closureHandlerGet(_req, res)  {
         if(!entity){
             res.status(404).json({mensaje:'no encontrado'});
         }
@@ -26,13 +27,35 @@ const getSingleEntity = function closureGetOne(entity) {
           nombreArchivo: _id,
         });
         if (singleEntity) {
-          res.status(200).json(singleEntity);
+           return res.status(200).json(singleEntity);
         }
         res.status(404).json({ mensaje: "no encontrado" });
+    };
+};
+
+const postEntity = function closurePost(entity) {
+    return async function closureHandlerPost(req, res) {
+
+        if(!entity){
+            res.status(404).json({mensaje:'no encontrado'});
+        }
+    
+        if( req.body && Object.keys(req.body).length > 0 ){
+            const _id = uuidv4();
+            const dateNewProfile = {...req.body, _id};
+            const newProfile = await crear({
+                directorioEntidad:entity,
+                nombreArchivo: _id,
+                datosGuardar: dateNewProfile,
+            });
+            return res.status(200).json(newProfile);
+        }
+        return res.status(400).json({mensaje: "falta el body"});   
     }
 };
 
 module.exports = {
    getEntity,
    getSingleEntity,
+   postEntity,
 };

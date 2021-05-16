@@ -1,12 +1,11 @@
 const router = require('express').Router();
 
-const { v4: uuidv4 } = require('uuid');
-const { crear,  
+const {
     actualizar, 
     eliminar,
 } = require('../../../data-handler');
 
-const { getEntity, getSingleEntity } = require('../genericos');
+const { getEntity, getSingleEntity, postEntity } = require('../genericos');
 
 const entity = 'register';
 
@@ -16,24 +15,8 @@ router.get( '/', listarHandler);
 const obtenerUnoHandler = getSingleEntity(entity);
 router.get('/:_id', obtenerUnoHandler); 
 
-router.post("/", async (req, res) =>{
-
-    if(!entity){
-        res.status(404).json({mensaje:'no encontrado'});
-    }
-
-    if( req.body && Object.keys(req.body).length > 0 ){
-        const _id = uuidv4();
-        const dateNewProfile = {...req.body, _id};
-        const newProfile = await crear({
-            directorioEntidad:entity,
-            nombreArchivo: _id,
-            datosGuardar: dateNewProfile,
-        });
-        return res.status(200).json(newProfile);
-    }
-    return res.status(400).json({mensaje: "falta el body"});   
-});
+const postHandler = postEntity(entity);
+router.post("/", postHandler);
 
 router.put("/:_id", async (req, res) => {
     const{_id= null } = req.params;
