@@ -7,15 +7,11 @@ const { crear,
     obtenerUno,
 } = require('../../../data-handler');
 
-const { listar } = require('../genericos');
+const { getEntity } = require('../genericos');
 
-const entity = 'profile';
+const listarHandler = getEntity('profile');
 
-router.get('/', (_req, res) => {
-    res.send('la API está corriendo exitósamente');
-});
-
-router.get( '/', async (_req, res) => listar(entity, _req, res));
+router.get( '/', listarHandler);
 
 router.get('/:_id', async (req, res) => {
     const { _id = null } = req.params;
