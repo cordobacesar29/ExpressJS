@@ -1,5 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
-const { listar, obtenerUno,crear } = require('../../data-handler');
+const { listar, obtenerUno, crear, actualizar } = require('../../data-handler');
 
 const getEntity = function closureGet(entity) {
     return async function closureHandlerGet(_req, res)  {
@@ -11,7 +11,7 @@ const getEntity = function closureGet(entity) {
     };  
 };
 
-const getSingleEntity = function closureGetOne(entity) {
+const getOneEntity = function closureGetOne(entity) {
     return async function closureHandlerGetOne(req, res) {
         const { _id = null } = req.params;
     
@@ -54,8 +54,33 @@ const postEntity = function closurePost(entity) {
     }
 };
 
+const putEntity = function closurePutEntity(entity) {
+    return  async function closureHandlerPut(req, res) {
+        const{_id= null } = req.params;
+    
+        if(!_id) {
+            return res.status(400).json({mensaje:'falta el id'});
+        }
+        if(!entity){
+            res.status(404).json({mensaje:'no encontrado'});
+        }
+    
+        if( req.body && Object.keys(req.body).length > 0 ){
+            const currentDate = {...req.body, _id};
+            const profileUpdate = await actualizar({
+                directorioEntidad: entity, 
+                nombreArchivo: _id,
+                datosActuales: currentDate,
+            })
+            return res.status(200).json(profileUpdate);
+        }
+        return res.status(400).json({mensaje: "falta el body"});   
+    }
+  };
+
 module.exports = {
    getEntity,
-   getSingleEntity,
+   getOneEntity,
    postEntity,
+   putEntity,
 };
