@@ -1,16 +1,25 @@
 const router = require('express').Router();
 const Profile = require('./schema');
 const { 
-    getEntity,
+   // getEntity,
     getOneEntity,
-    postEntity,
+   // postEntity,
     putEntity,
     deleteEntity
 } = require('../genericos');
 const entity = 'profile';
 
-const getHandler = getEntity(entity);
-router.get( '/', getHandler);
+/*const getHandler = getEntity(entity);
+router.get( '/', getHandler);*/
+router.get("/", async (req, res) => {
+    try {
+      const profiles = await Profile.find();
+      return res.status(200).json(profiles);
+    } catch (error) {
+      console.log({ error });
+      return res.status(500).json({ mensaje: error.message });
+    }
+  });
 
 const getOneHandler = getOneEntity(entity);
 router.get('/:_id', getOneHandler);  
