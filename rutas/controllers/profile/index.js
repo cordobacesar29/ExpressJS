@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const Profile = require('./schema');
 const { 
     getEntity,
     getOneEntity,
@@ -14,8 +15,18 @@ router.get( '/', getHandler);
 const getOneHandler = getOneEntity(entity);
 router.get('/:_id', getOneHandler);  
 
-const postHandler = postEntity(entity);
-router.post('/', postHandler);
+/*const postHandler = postEntity(entity);
+router.post('/', postHandler);*/
+router.post("/", async (req, res)=>{
+    try {
+      const profile = new Profile(req.body);
+      await profile.save();
+      return res.status(200).json(profile);  
+    } catch (error) {
+      console.log({error});
+      return res.status(500).json({ mensaje: error.message });
+    }
+});
 
 const putHandler = putEntity(entity);
 router.put("/:_id", putHandler);
