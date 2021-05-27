@@ -49,8 +49,22 @@ router.post("/", async (req, res)=>{
     }
 });
 
-const putHandler = putEntity(entity);
-router.put("/:_id", putHandler);
+/*const putHandler = putEntity(entity);
+router.put("/:_id", putHandler);*/
+router.put("/:_id", async (req, res) => {
+  try {
+    const { _id = null } = req.params;
+    const {_id: id, ...newDates } = req.body;
+    if(!_id) {
+      return res.status(400).json({ mensaje: 'falta id' });  
+    } 
+    const profileUpdate = await Profile.findOneAndUpdate({_id}, {$set : newDates}, {new:true, runValidators:true});
+    return res.status(200).json(profileUpdate);
+  } catch (error) {
+    console.log({ error });
+    return res.status(500).json({ mensaje: error.message });
+  }
+});
 
 const deleteHandler = deleteEntity(entity);
 router.delete("/:_id", deleteHandler);
