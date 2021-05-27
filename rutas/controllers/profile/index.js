@@ -19,10 +19,22 @@ router.get("/", async (req, res) => {
       console.log({ error });
       return res.status(500).json({ mensaje: error.message });
     }
-  });
+});
 
-const getOneHandler = getOneEntity(entity);
-router.get('/:_id', getOneHandler);  
+ // const getOneHandler = getOneEntity(entity);
+router.get('/:_id', async (req, res) => {
+  try {
+    const { _id } = req.params;
+    const oneProfile = await Profile.findById(_id);
+    if (oneProfile) {
+      return res.status(200).json(oneProfile);
+    }
+    return res.status(404).json({ mensaje: "mascota no encontrada" });
+  } catch (error) {
+    console.log({ error });
+    return res.status(500).json({ mensaje: error.message });
+  }
+});  
 
 /*const postHandler = postEntity(entity);
 router.post('/', postHandler);*/
