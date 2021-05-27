@@ -2,10 +2,10 @@ const router = require('express').Router();
 const Profile = require('./schema');
 const { 
    // getEntity,
-    getOneEntity,
+    //getOneEntity,
    // postEntity,
-    putEntity,
-    deleteEntity
+    //putEntity,
+    //deleteEntity
 } = require('../genericos');
 const entity = 'profile';
 
@@ -66,8 +66,22 @@ router.put("/:_id", async (req, res) => {
   }
 });
 
-const deleteHandler = deleteEntity(entity);
-router.delete("/:_id", deleteHandler);
+/*const deleteHandler = deleteEntity(entity);
+router.delete("/:_id", deleteHandler);*/
+router.delete("/:_id", async (req, res) => {
+  try {
+    const { _id = null } = req.params;
+    if (!_id) {
+      return res.status(400).json({ mensaje: "falta id" });
+    }
+    const profileDelete = await Profile.remove({_id});
+    console.log({profileDelete});
+    return res.status(204).send();
+  } catch (error) {
+    console.log({ error });
+    return res.status(500).json({ mensaje: error.message });
+  }
+});
 
 
 module.exports = router;
