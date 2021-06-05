@@ -7,11 +7,11 @@ const {
     //putEntity,
     //deleteEntity
 } = require('../genericos');
-const entity = 'profile';
+//const entity = 'profile';
 
 /*const getHandler = getEntity(entity);
 router.get( '/', getHandler);*/
-router.get("/", async (req, res) => {
+router.get("/", async (_req, res) => {
     try {
       const profiles = await Profile.find();
       return res.status(200).json(profiles);
