@@ -4,8 +4,8 @@ const {
     //getEntity, 
     //getOneEntity, 
     //postEntity,
-    putEntity,
-    deleteEntity
+    //putEntity,
+    //deleteEntity
 } = require('../genericos');
 const entity = 'register';
 
