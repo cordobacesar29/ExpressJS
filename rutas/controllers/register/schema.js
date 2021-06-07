@@ -18,7 +18,10 @@ const registerSchema = new Schema(
         webSite: {
             type: String,
             required: true,
-        }
+        },
+    },
+    {
+        timestamps: true,
     }
 );
 
